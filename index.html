@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwriting Personality Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Personality Assessment Based on Handwriting</h1>
+        <p>Please upload an image of your handwriting or take a photo to start the analysis.</p>
+        <div class="upload-section">
+            <button onclick="document.getElementById('upload-input').click()">Upload Image</button>
+            <input type="file" id="upload-input" accept="image/*" onchange="previewImage(event)">
+        </div>
+        <div class="capture-section">
+            <button onclick="openCamera()">Take Photo</button>
+            <video id="video" autoplay></video>
+            <button id="capture-btn" onclick="capturePhoto()">Capture</button>
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="result-section" id="result-section">
+            <img id="preview" src="" alt="Handwriting Preview">
+            <p id="analysis-result"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
