@@ -1,62 +1,79 @@
-// Function to analyze handwriting based on measurable characteristics
-function analyzeHandwriting({ slant, size, pressure, spacing, loops }) {
-    let result = '';
+// Function to analyze handwriting based on random simulation
+function analyzeHandwriting() {
+    const possibleResults = [
+        'Your handwriting is neat and beautiful, indicating a strong sense of order and aesthetic appreciation.',
+        'Your handwriting is a bit messy, suggesting you are creative, spontaneous, and enjoy thinking outside the box.',
+        'Your handwriting is very small and controlled, reflecting a meticulous, detail-oriented personality with a love for precision.',
+        'Your handwriting is large and bold, showing confidence and a strong presence in social situations.',
+        'Your handwriting has sharp, angular strokes, which could indicate a more analytical and logical mind, but also a tendency towards critical thinking.',
+        'Your handwriting is highly slanted and erratic, pointing to a person with emotional depth but also unpredictability and mood swings.',
+        'Your handwriting is rounded and smooth, suggesting a warm, compassionate nature and a desire to keep harmony around you.',
+        'Your handwriting shows inconsistency in size and shape, indicating a complex personality with varied interests and thoughts.',
+        'Your handwriting looks identical to samples studied in forensic psychology for psychopathic tendencies, hinting at traits such as high intelligence, charm, and strategic thinking.'
+    ];
 
-    // Analyze slant
-    if (slant === 'right') {
-        result += 'Your handwriting slants to the right, indicating that you are outgoing, emotional, and open to new experiences. ';
-    } else if (slant === 'left') {
-        result += 'Your handwriting slants to the left, suggesting that you are more reserved, introspective, and may hold back emotions. ';
-    } else {
-        result += 'Your handwriting is vertical, which suggests a balanced, logical, and practical approach to life. ';
-    }
-
-    // Analyze size
-    if (size === 'large') {
-        result += 'You write with large letters, which is often a sign of confidence, boldness, and a desire to be noticed. ';
-    } else if (size === 'small') {
-        result += 'Your letters are small, which indicates focus, concentration, and a meticulous personality. ';
-    } else {
-        result += 'You have medium-sized handwriting, which reflects adaptability and a balanced nature. ';
-    }
-
-    // Analyze pressure
-    if (pressure === 'heavy') {
-        result += 'You apply heavy pressure when writing, which suggests strong emotions, commitment, and intensity. ';
-    } else if (pressure === 'light') {
-        result += 'You write with light pressure, indicating a more sensitive, relaxed, and possibly cautious approach to life. ';
-    }
-
-    // Analyze spacing between words
-    if (spacing === 'wide') {
-        result += 'The wide spacing between your words shows that you value personal space and independence. ';
-    } else if (spacing === 'narrow') {
-        result += 'Your words are spaced closely together, indicating that you enjoy company and prefer being around others. ';
-    }
-
-    // Analyze loops in letters (like "l" and "e")
-    if (loops === 'open') {
-        result += 'You have open loops in your letters, which suggests openness, creativity, and a free-spirited personality. ';
-    } else if (loops === 'closed') {
-        result += 'Your loops are closed, indicating that you may be more self-controlled, cautious, and introspective. ';
-    }
-
-    return result || 'Handwriting analysis could not provide conclusive insights.';
+    // Randomly select a result from the array
+    const randomIndex = Math.floor(Math.random() * possibleResults.length);
+    return possibleResults[randomIndex];
 }
 
-// Function to simulate collecting handwriting data and performing the analysis
-function performHandwritingAnalysis() {
-    // Simulate handwriting characteristics (In a real application, this data would come from handwriting recognition)
-    const handwritingSample = {
-        slant: ['right', 'left', 'vertical'][Math.floor(Math.random() * 3)],
-        size: ['large', 'small', 'medium'][Math.floor(Math.random() * 3)],
-        pressure: ['heavy', 'light'][Math.floor(Math.random() * 2)],
-        spacing: ['wide', 'narrow'][Math.floor(Math.random() * 2)],
-        loops: ['open', 'closed'][Math.floor(Math.random() * 2)],
-    };
+// Function to preview uploaded image
+function previewImage(event) {
+    const resultSection = document.getElementById('result-section');
+    const preview = document.getElementById('preview');
+    const analysisResult = document.getElementById('analysis-result');
 
-    return analyzeHandwriting(handwritingSample);
+    const reader = new FileReader();
+    reader.onload = function() {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+        analysisResult.innerText = 'Analyzing your handwriting...';
+        
+        // Simulate analysis process
+        setTimeout(() => {
+            analysisResult.innerText = analyzeHandwriting();
+        }, 2000);
+    }
+    reader.readAsDataURL(event.target.files[0]);
 }
 
-// Example usage (simulating an analysis)
-console.log(performHandwritingAnalysis());
+// Function to open camera and take a photo
+function openCamera() {
+    const video = document.getElementById('video');
+    const captureBtn = document.getElementById('capture-btn');
+    
+    video.style.display = 'block';
+    captureBtn.style.display = 'block';
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            console.error("Camera access error:", error);
+        });
+}
+
+// Function to capture photo from video
+function capturePhoto() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const resultSection = document.getElementById('result-section');
+    const preview = document.getElementById('preview');
+    const analysisResult = document.getElementById('analysis-result');
+    
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Show the captured photo in the preview section
+    preview.src = canvas.toDataURL('image/png');
+    preview.style.display = 'block';
+    analysisResult.innerText = 'Analyzing your handwriting...';
+    
+    // Simulate analysis process
+    setTimeout(() => {
+        analysisResult.innerText = analyzeHandwriting();
+    }, 2000);
+} 
