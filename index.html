@@ -8,20 +8,34 @@
 </head>
 <body>
   <div class="wrap">
+
     <div class="header">
-      <div class="title">Handwriting personality analysis</div>
-      <div class="subtitle">Upload or photograph a handwriting sample. </div>
+      <div class="logo-icon">✍️</div>
+      <h1>Handwriting personality analysis</h1>
+      <p class="subtitle">Upload or photograph a handwriting sample for an in-depth graphological personality profile.</p>
     </div>
 
     <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-      <div class="upload-icon">✍️</div>
-      <p><strong>Click to upload</strong> or drag & drop</p>
-      <p class="upload-hint">JPG, PNG, WEBP supported</p>
+      <div class="upload-illustration">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="12" fill="#EAF4FB"/>
+          <path d="M24 14v14M17 21l7-7 7 7" stroke="#4A90E2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 34h20" stroke="#4A90E2" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="drop-title"><strong>Click to upload</strong> or drag &amp; drop</p>
+      <p class="drop-hint">JPG, PNG, WEBP — any handwritten text works</p>
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="toggleCamera()">📷 Use camera</button>
-      <button class="btn primary" id="analyze-btn" onclick="runAnalysis()" style="display:none;">Analyse handwriting</button>
+      <button class="btn secondary" onclick="toggleCamera()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Use camera
+      </button>
+      <button class="btn accent" id="analyze-btn" onclick="runAnalysis()" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Analyse handwriting
+      </button>
     </div>
 
     <input type="file" id="file-input" accept="image/*" onchange="handleFile(event)">
@@ -29,36 +43,47 @@
     <div class="camera-modal" id="camera-modal">
       <div class="video-wrap">
         <video id="cam-video" autoplay playsinline></video>
+        <div class="cam-overlay-text">Position handwriting in frame</div>
       </div>
       <canvas id="cam-canvas"></canvas>
       <div class="cam-btn-row">
-        <button class="btn" onclick="closeCamera()">Cancel</button>
+        <button class="btn secondary" onclick="closeCamera()">Cancel</button>
         <button class="btn primary" onclick="captureFromCamera()">Capture photo</button>
       </div>
     </div>
 
     <div class="preview-area" id="preview-area">
       <img id="preview-img" src="" alt="Handwriting preview">
+      <div class="preview-label">Your sample</div>
     </div>
 
-    <div class="status-bar loading" id="status-bar">
+    <div class="status-bar" id="status-bar">
       <div class="dot-loader"><span></span><span></span><span></span></div>
       <span id="status-text">Analysing handwriting…</span>
     </div>
 
     <div class="result-card" id="result-card">
       <div class="result-header">
-        <div class="label">Personality profile</div>
-        <div class="name" id="result-archetype">—</div>
+        <div class="archetype-badge" id="archetype-badge">—</div>
+        <div class="result-name" id="result-archetype">Personality archetype</div>
       </div>
-      <div class="traits-grid" id="traits-grid"></div>
+
+      <div class="traits-section">
+        <div class="section-label">Graphological traits</div>
+        <div class="traits-grid" id="traits-grid"></div>
+      </div>
+
+      <div class="features-section" id="features-section"></div>
+
       <div class="summary-section">
-        <div class="s-label">Overview</div>
+        <div class="section-label">Full profile overview</div>
         <div class="summary-text" id="summary-text"></div>
       </div>
-    </div>
-  </div>
 
+      <div class="tags-row" id="tags-row"></div>
+    </div>
+
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
