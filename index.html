@@ -1,30 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handwriting Personality Assessment</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handwriting Personality Analysis</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Personality Assessment Based on Handwriting</h1>
-        <p>Please upload an image of your handwriting or take a photo to start the analysis.</p>
-        <div class="upload-section">
-            <button onclick="document.getElementById('upload-input').click()">Upload Image</button>
-            <input type="file" id="upload-input" accept="image/*" onchange="previewImage(event)">
-        </div>
-        <div class="capture-section">
-            <button onclick="openCamera()">Take Photo</button>
-            <video id="video" autoplay></video>
-            <button id="capture-btn" onclick="capturePhoto()">Capture</button>
-            <canvas id="canvas"></canvas>
-        </div>
-        <div class="result-section" id="result-section">
-            <img id="preview" src="" alt="Handwriting Preview">
-            <p id="analysis-result"></p>
-        </div>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">Handwriting personality analysis</div>
+      <div class="subtitle">Upload or photograph a handwriting sample. Claude will analyse the visual characteristics and generate a personality profile.</div>
     </div>
-    <script src="script.js"></script>
+
+    <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <div class="upload-icon">✍️</div>
+      <p><strong>Click to upload</strong> or drag & drop</p>
+      <p class="upload-hint">JPG, PNG, WEBP supported</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="toggleCamera()">📷 Use camera</button>
+      <button class="btn primary" id="analyze-btn" onclick="runAnalysis()" style="display:none;">Analyse handwriting</button>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" onchange="handleFile(event)">
+
+    <div class="camera-modal" id="camera-modal">
+      <div class="video-wrap">
+        <video id="cam-video" autoplay playsinline></video>
+      </div>
+      <canvas id="cam-canvas"></canvas>
+      <div class="cam-btn-row">
+        <button class="btn" onclick="closeCamera()">Cancel</button>
+        <button class="btn primary" onclick="captureFromCamera()">Capture photo</button>
+      </div>
+    </div>
+
+    <div class="preview-area" id="preview-area">
+      <img id="preview-img" src="" alt="Handwriting preview">
+    </div>
+
+    <div class="status-bar loading" id="status-bar">
+      <div class="dot-loader"><span></span><span></span><span></span></div>
+      <span id="status-text">Analysing handwriting…</span>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <div class="result-header">
+        <div class="label">Personality profile</div>
+        <div class="name" id="result-archetype">—</div>
+      </div>
+      <div class="traits-grid" id="traits-grid"></div>
+      <div class="summary-section">
+        <div class="s-label">Overview</div>
+        <div class="summary-text" id="summary-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
